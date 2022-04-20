@@ -1,4 +1,7 @@
 # contextualized-topic-models-ssl
+
+UPDATE: Parent Paper Implementation has now been moved to [Colab Notebook](https://colab.research.google.com/drive/14t_9WrK5MJ_I0Bx2UCnKV7f1VWHFQMHU?usp=sharing).
+
 Contextualized Topic Models on Same Script Languages
 
 Steps to replicate original model.
