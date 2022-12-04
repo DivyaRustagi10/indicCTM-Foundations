@@ -1,5 +1,5 @@
 # Override utility functions for TopicModelDataPreparation to support SentenceTransformers built from scratch
-from sentence_transformers import SentenceTransformer, 
+from sentence_transformers import SentenceTransformer
 import numpy as npmodels
 
 def bert_embeddings_from_file(text_file, sbert_model_to_load, custom=False, tokenizer_args=None, model_args=None, batch_size=200):

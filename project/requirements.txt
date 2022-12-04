@@ -1,0 +1,17 @@
+pyldavis
+wget
+head
+nvidia-smi
+
+indic-nlp-library==0.81 
+stopwordsiso
+
+inltk
+regex
+urduhack
+
+fastapi
+colabcode
+pyngrok
+pydantic 
+uvicorn
