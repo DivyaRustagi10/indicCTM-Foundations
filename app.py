@@ -16,10 +16,8 @@ class Document(BaseModel):
             }
         }
 
-from starlette.responses import PlainTextResponse
 # Create endpoint for serving requests using endpoint function
-from fastapi import FastAPI, Response
-from fastapi.responses import UJSONResponse
+from fastapi import FastAPI
 import joblib
 
 app = FastAPI()
