@@ -1,4 +1,6 @@
 import streamlit as st
+import json
+import requests
 
 st.title("Looking for topic tags and nothing more? You've come to the right place.") # i.e., Nonnative Users
 #st.write("You have entered", st.session_state["my_input"])
@@ -6,12 +8,14 @@ st.title("Looking for topic tags and nothing more? You've come to the right plac
 # Start of 'Instructions' section #################
 st.header("Instructions", anchor=None)
 
-st.text("Fill in 'Instructions' section here!!!")
+st.text("Copy and paste your text in the space below.")
+st.text("Feel free to use as many or as few characters as you'd like.")
+
 # End of 'Instructions' section #################
 
 # input user text
-st.text_area(
-"Paste your text below:", value="",
+text = st.text_area(
+"Happy tagging!\n", value="",
 height=None,
 max_chars=None,
 key=None,
@@ -29,11 +33,17 @@ if st.button('Get Top 5 Best Tags'):
 
     # Fetch top 5 best tags
     try:
-        st.text("Top 5 works fine")
+        # do something here with text
+        input = text
+        res = requests.post(url = "https://a13c-34-143-172-49.ngrok.io/predict",
+              data = json.dumps(input))
+
+        # Output top 5 best tags below
+        st.subheader(res.text)
 
     except ValueError:
         st.text("Top 5 failed")
-    # Output top 5 best tags below
+
 
 # Top 10 button
 if st.button('Get Top 10 Best Tags'):
@@ -41,10 +51,13 @@ if st.button('Get Top 10 Best Tags'):
 
     # Fetch top 10 best tags
     try:
-        st.text("Top 10 works fine")
+        # do something here with text
+        input = text
+        res = requests.post(url = "https://a13c-34-143-172-49.ngrok.io/predict",
+              data = json.dumps(input))
+
+        # Output top 10 best tags below
+        st.subheader(res.text)
 
     except ValueError:
         st.text("Top 10 failed")
-
-
-    # Output top 10 best tags below

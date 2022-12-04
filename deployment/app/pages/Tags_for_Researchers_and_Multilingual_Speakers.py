@@ -1,16 +1,19 @@
 import streamlit as st
+import json
+import requests
 
 st.title("NLP researcher? Or just language savvy? Either way, add a little more flair to your topic tags.") # i.e., Multilingual/Research-oriented Users
 
 # Start of 'Instructions' section #################
 st.header("Instructions", anchor=None)
 
-st.text("Fill in 'Instructions' section here!!!")
+st.text("Copy and paste your text in the space below.")
+st.text("Feel free to use as many or as few characters as you'd like.")
 # End of 'Instructions' section #################
 
 # input user text
-st.text_area(
-"Paste your text below:", value="",
+text = st.text_area(
+"Happy tagging!\n", value="",
 height=None,
 max_chars=None,
 key=None,
@@ -27,20 +30,19 @@ if st.button('Submit'):
 
     # Fetch data and feed thru model
     try:
-        st.text("Submit works fine")
+        # do something here with text
+        input = text
+        res = requests.post(url = "https://a13c-34-143-172-49.ngrok.io/predict",
+              data = json.dumps(input))
+
+        # Output Word Cloud visualization below
+
+        # Start of 'Stats for Nerds' section
+        st.header("Stats for Nerds", anchor=None)
+
+        # Output request results below
+        st.subheader(res.text)
+
 
     except ValueError:
         st.text("Submit failed")
-
-    # Output Word Cloud visualization below
-
-    # Start of 'Stats for Nerds' section #################
-    st.header("Stats for Nerds", anchor=None)
-
-    # text here
-    st.text("Fill in 'Stats for Nerds' section here!!!")
-
-    # embed more stats / visualization(s) here...
-
-
-    # End of 'Stats for Nerds' section #################
