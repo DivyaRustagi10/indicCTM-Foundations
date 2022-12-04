@@ -1,14 +1,17 @@
+contextualized_topic_models
+
 pyldavis
 wget
 head
 nvidia-smi
 
-indic-nlp-library==0.81 
+# Setup Hindi for analysis
+indic-nlp-library==0.81
 stopwordsiso
-
 inltk
 regex
 urduhack
+
 
 fastapi
 colabcode
