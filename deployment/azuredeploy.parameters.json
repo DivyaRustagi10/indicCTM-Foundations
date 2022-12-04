@@ -12,7 +12,7 @@
             "value": "PYTHON|3.9"
         },
         "repoUrl": {
-            "value": "https://github.com/bostickt201/DS440_IndicTopicTagger"
+            "value": "https://github.com/DivyaRustagi10/contextualized-topic-models-ssl.git"
         },
         "repoBranch": {
             "value": "main"
