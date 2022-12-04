@@ -32,17 +32,17 @@ if st.button('Get Top 5 Best Tags'):
     st.spinner(text="Please wait ... Retrieving Top 5 best tags ...")
 
     # Fetch top 5 best tags
-    try:
+    #try:
         # do something here with text
-        input = text
-        res = requests.post(url = "https://a13c-34-143-172-49.ngrok.io/predict",
-              data = json.dumps(input))
+        #input = text
+        #res = requests.post(url = "https://a13c-34-143-172-49.ngrok.io/predict",
+    #          data = json.dumps(input))
 
         # Output top 5 best tags below
-        st.subheader(res.text)
+    #    st.subheader(res.text)
 
-    except ValueError:
-        st.text("Top 5 failed")
+    #except ValueError:
+    #    st.text("Top 5 failed")
 
 
 # Top 10 button
@@ -50,14 +50,14 @@ if st.button('Get Top 10 Best Tags'):
     st.spinner(text="Please wait ... Retrieving Top 10 best tags ...")
 
     # Fetch top 10 best tags
-    try:
+#    try:
         # do something here with text
-        input = text
-        res = requests.post(url = "https://a13c-34-143-172-49.ngrok.io/predict",
-              data = json.dumps(input))
+#        input = text
+#        res = requests.post(url = "https://a13c-34-143-172-49.ngrok.io/predict",
+#              data = json.dumps(input))
 
         # Output top 10 best tags below
-        st.subheader(res.text)
+#        st.subheader(res.text)
 
-    except ValueError:
-        st.text("Top 10 failed")
+#    except ValueError:
+#        st.text("Top 10 failed")
