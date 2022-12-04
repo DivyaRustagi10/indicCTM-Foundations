@@ -1,5 +1,5 @@
 contextualized_topic_models
-
+pandas
 pyldavis
 wget
 head
@@ -11,7 +11,6 @@ stopwordsiso
 inltk
 regex
 urduhack
-
 
 fastapi
 colabcode
