@@ -1,0 +1,6 @@
+streamlit==1.13.0
+altair
+click==8
+pandas
+protobuf==3.20.*
+vega-datasets
