@@ -197,7 +197,6 @@ import string
 from nltk.corpus import stopwords as stop_words
 from gensim.utils import deaccent
 import warnings
-from inltk.inltk import remove_foreign_languages
 import regex 
 from indicnlp.normalize.indic_normalize import IndicNormalizerFactory
 from indicnlp.tokenize.indic_tokenize import trivial_tokenize
