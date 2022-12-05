@@ -37,15 +37,26 @@ if st.button('Get Top 5 Best Tags'):
     try:
 
         # do something here with text
-        input = {"input_text": input}
+        input = {"input_text": text}
 
         preds = top_5()
         #res = requests.post(url = "https://a13c-34-143-172-49.ngrok.io/predict",
     #          data = json.dumps(input))
 
         # Output top 5 best tags below
+        st.text("Top 5 from prediction_hi_model_25:")
+        st.text(preds[0])
 
-        st.subheader(preds)
+        st.text("Top 5 from prediction_hi_model_50:")
+        st.text(preds[1])
+
+        st.text("Top 5 from prediction_en_model_25:")
+        st.text(preds[2])
+
+        st.text("Top 5 from prediction_en_model_50:")
+        st.text(preds[3])
+
+        #st.subheader(preds)
 
     except ValueError:
         st.text("Top 5 failed")
@@ -58,13 +69,25 @@ if st.button('Get Top 10 Best Tags'):
     # Fetch top 10 best tags
     try:
         # do something here with text
-        input = { "input_text": input}
+        input = { "input_text": text}
 #        res = requests.post(url = "https://a13c-34-143-172-49.ngrok.io/predict",
 #              data = json.dumps(input))
 
         preds = top_10()
         # Output top 10 best tags below
-        st.subheader(preds)
+
+        # Output top 5 best tags below
+        st.text("Top 10 from prediction_hi_model_25:")
+        st.text(preds[0])
+
+        st.text("Top 10 from prediction_hi_model_50:")
+        st.text(preds[1])
+
+        st.text("Top 10 from prediction_en_model_25:")
+        st.text(preds[2])
+
+        st.text("Top 10 from prediction_en_model_50:")
+        st.text(preds[3])
 
     except ValueError:
         st.text("Top 10 failed")

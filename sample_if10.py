@@ -8,18 +8,20 @@ def top_10():
     # a dictionary
     data = json.load(f)
 
-    # Iterating through the json
-    # list
+    # Opening JSON file
+    f = open('API_sample_response.json')
 
-    key_array = []
-    for i in data.keys():
-        key_array.append(i)
+    # returns JSON object as
+    # a dictionary
+    data = json.load(f)
 
-    t = []
-    for _ in key_array:
-        t.append(data[_][:10])
-    #print(data["prediction_hi_model_25"][:5])
-    #print(data["prediction_hi_model_50"])
+    t = [
+    data["prediction_hi_model_25"][:10],
+    data["prediction_hi_model_50"][:10],
+    data["prediction_en_model_25"][:10],
+    data["prediction_en_model_50"][:10]
+    ]
+
 
             # Closing file
 
