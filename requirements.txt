@@ -1,6 +1,0 @@
-contextualized_topic_models
-numpy
-uvicorn
-pydantic
-fastapi
-joblib
