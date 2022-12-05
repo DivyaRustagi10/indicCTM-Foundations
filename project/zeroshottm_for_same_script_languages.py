@@ -45,9 +45,9 @@ import pickle
 from inltk.inltk import setup
 
 try:
-  setup('hi')
+    setup('hi')
 except:
-  pass
+    pass
 
 """## Data
 
@@ -61,7 +61,6 @@ We combine each speech document into one, for every language. Datasets are downl
 """
 
 # Imports
-import urllib
 import wget
 import pandas as pd
 import os
@@ -115,8 +114,8 @@ STRIP_INDEX = SPEECHES_IN_LANGS['as'][0].index('as') + len('as/')   # GET LANGUA
 
 filenames = {}
 for lang in SPEECHES_IN_LANGS.keys():
-  temp = [item[STRIP_INDEX:] for item in SPEECHES_IN_LANGS[lang]]
-  filenames[lang] = temp
+    temp = [item[STRIP_INDEX:] for item in SPEECHES_IN_LANGS[lang]]
+    filenames[lang] = temp
 
 """*Combine Parallel Speeches Into Corpus*"""
 
@@ -131,36 +130,35 @@ pd.DataFrame(sample_corpus, columns = ["Speech File Name"]).head()
 # NORMALIZE HINDI TEXTS
 from indicnlp.normalize.indic_normalize import IndicNormalizerFactory
 from indicnlp.tokenize.indic_tokenize import trivial_tokenize
-import urduhack 
 
-def normalize(sent, lang = 'hi'):  
-  normalizer_factory = IndicNormalizerFactory()
-  normalizer = normalizer_factory.get_normalizer(lang)
-  normalized = normalizer.normalize(sent)
-  return normalized
+def normalize(sent, lang = 'hi'):
+    normalizer_factory = IndicNormalizerFactory()
+    normalizer = normalizer_factory.get_normalizer(lang)
+    normalized = normalizer.normalize(sent)
+    return normalized
 
 # Combine selected 800 sample speeches into one document for each lang 
 parallel_speeches = {}    # STORE TEST SPEECHES
 train_speeches = {}       # STORE TRAIN SPEECHES
 
 for lang, speeches in SPEECHES_IN_LANGS.items(): 
-  each_lang = []         # list of speeches for one language at a time
-  just_train = []
-  
-  for speech_file in speeches:                          # access list of files in speeches for one language at a time
-    with open(speech_file, 'r') as speech:              # read file
-      speech = " ".join([str(line) for line in speech]) # each speech file becomes one string
-      
-      if lang != 'en' and lang != 'ur':                 # normalize each speech per language
-        normalize(speech, lang)
+    each_lang = []         # list of speeches for one language at a time
+    just_train = []
+    
+    for speech_file in speeches:                          # access list of files in speeches for one language at a time
+      with open(speech_file, 'r') as speech:              # read file
+        speech = " ".join([str(line) for line in speech]) # each speech file becomes one string
+        
+        if lang != 'en' and lang != 'ur':                 # normalize each speech per language
+          normalize(speech, lang)
 
-      if speech_file[STRIP_INDEX:] in sample_corpus:
-        each_lang.append(speech)                        # append string version of speech file
-      else:
-        just_train.append(speech)                       # add to train set
+        if speech_file[STRIP_INDEX:] in sample_corpus:
+          each_lang.append(speech)                        # append string version of speech file
+        else:
+          just_train.append(speech)                       # add to train set
 
-  parallel_speeches[lang] = each_lang                   # add list of speeches for every language
-  train_speeches[lang] = just_train                     # add to train set
+    parallel_speeches[lang] = each_lang                   # add list of speeches for every language
+    train_speeches[lang] = just_train                     # add to train set
 
 train_speeches['hi'] = [normalize(list) for list in train_speeches['hi']]
 
@@ -169,7 +167,6 @@ train_speeches['hi'] = [normalize(list) for list in train_speeches['hi']]
 # Imports
 import pandas as pd
 from pprint import pprint
-import re
 
 # Selecting Train speeches
 hindi_unprep = pd.DataFrame(list for list in train_speeches['hi'])
@@ -186,7 +183,6 @@ print(english_unprep[:5])
 
 # Imports
 from contextualized_topic_models.models.ctm import ZeroShotTM
-import contextualized_topic_models.utils.data_preparation
 from contextualized_topic_models.utils.data_preparation import TopicModelDataPreparation
 from contextualized_topic_models.utils.preprocessing import WhiteSpacePreprocessing
 import nltk
@@ -194,8 +190,6 @@ import pickle
 
 from sklearn.feature_extraction.text import CountVectorizer
 import string
-from nltk.corpus import stopwords as stop_words
-from gensim.utils import deaccent
 import warnings
 import regex 
 from indicnlp.normalize.indic_normalize import IndicNormalizerFactory
@@ -301,69 +295,67 @@ Note: Here we use the contextualized model "ai4bharat/indic-bert", because we ne
 
 from contextualized_topic_models.utils import data_preparation as dp
 import numpy as np
-from sentence_transformers import SentenceTransformer
-import scipy.sparse
 import warnings
 from contextualized_topic_models.datasets.dataset import CTMDataset
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.preprocessing import OneHotEncoder
 
 class TopicModelDataPreparation(TopicModelDataPreparation):
-      def custom_analyzer(self, text):
-        """
-        code source: https://stackoverflow.com/questions/60763030
-                  having-an-issue-in-doing-count-vectorization-for-hindi-text
-        """
-        words = regex.findall(r'\w{2,}', text) # extract words of at least 2 letters
-        for w in words:
-          yield w
+  def custom_analyzer(self, text):
+    """
+    code source: https://stackoverflow.com/questions/60763030
+              having-an-issue-in-doing-count-vectorization-for-hindi-text
+    """
+    words = regex.findall(r'\w{2,}', text) # extract words of at least 2 letters
+    for w in words:
+      yield w
 
-      def fit(self, text_for_contextual, text_for_bow, labels=None, custom_embeddings=None):
-        """
-        This method fits the vectorizer and gets the embeddings from the contextual model
-        :param text_for_contextual: list of unpreprocessed documents to generate the contextualized embeddings
-        :param text_for_bow: list of preprocessed documents for creating the bag-of-words
-        :param custom_embeddings: np.ndarray type object to use custom embeddings (optional).
-        :param labels: list of labels associated with each document (optional).
-        """
+  def fit(self, text_for_contextual, text_for_bow, labels=None, custom_embeddings=None):
+    """
+    This method fits the vectorizer and gets the embeddings from the contextual model
+    :param text_for_contextual: list of unpreprocessed documents to generate the contextualized embeddings
+    :param text_for_bow: list of preprocessed documents for creating the bag-of-words
+    :param custom_embeddings: np.ndarray type object to use custom embeddings (optional).
+    :param labels: list of labels associated with each document (optional).
+    """
 
-        if custom_embeddings is not None:
-            assert len(text_for_contextual) == len(custom_embeddings)
-
-            if text_for_bow is not None:
-                assert len(custom_embeddings) == len(text_for_bow)
-
-            if type(custom_embeddings).__module__ != 'numpy':
-                raise TypeError("contextualized_embeddings must be a numpy.ndarray type object")
+    if custom_embeddings is not None:
+        assert len(text_for_contextual) == len(custom_embeddings)
 
         if text_for_bow is not None:
-            assert len(text_for_contextual) == len(text_for_bow)
+            assert len(custom_embeddings) == len(text_for_bow)
 
-        if self.contextualized_model is None and custom_embeddings is None:
-            raise Exception("A contextualized model or contextualized embeddings must be defined")
+        if type(custom_embeddings).__module__ != 'numpy':
+            raise TypeError("contextualized_embeddings must be a numpy.ndarray type object")
 
-        # TODO: this count vectorizer removes tokens that have len = 1, might be unexpected for the users
-        self.vectorizer = CountVectorizer(analyzer = self.custom_analyzer)
+    if text_for_bow is not None:
+        assert len(text_for_contextual) == len(text_for_bow)
 
-        train_bow_embeddings = self.vectorizer.fit_transform(text_for_bow)
+    if self.contextualized_model is None and custom_embeddings is None:
+        raise Exception("A contextualized model or contextualized embeddings must be defined")
 
-        # if the user is passing custom embeddings we don't need to create the embeddings using the model
-        if custom_embeddings is None:
-            train_contextualized_embeddings = dp.bert_embeddings_from_list(
-                text_for_contextual, sbert_model_to_load=self.contextualized_model, max_seq_length=self.max_seq_length)
-        else:
-            train_contextualized_embeddings = custom_embeddings
-        self.vocab = self.vectorizer.get_feature_names()
-        self.id2token = {k: v for k, v in zip(range(0, len(self.vocab)), self.vocab)}
+    # TODO: this count vectorizer removes tokens that have len = 1, might be unexpected for the users
+    self.vectorizer = CountVectorizer(analyzer = self.custom_analyzer)
 
-        if labels:
-            self.label_encoder = OneHotEncoder()
-            encoded_labels = self.label_encoder.fit_transform(np.array([labels]).reshape(-1, 1))
-        else:
-            encoded_labels = None
-        return CTMDataset(
-            X_contextual=train_contextualized_embeddings, X_bow=train_bow_embeddings,
-            idx2token=self.id2token, labels=encoded_labels)
+    train_bow_embeddings = self.vectorizer.fit_transform(text_for_bow)
+
+    # if the user is passing custom embeddings we don't need to create the embeddings using the model
+    if custom_embeddings is None:
+        train_contextualized_embeddings = dp.bert_embeddings_from_list(
+            text_for_contextual, sbert_model_to_load=self.contextualized_model, max_seq_length=self.max_seq_length)
+    else:
+        train_contextualized_embeddings = custom_embeddings
+    self.vocab = self.vectorizer.get_feature_names()
+    self.id2token = {k: v for k, v in zip(range(0, len(self.vocab)), self.vocab)}
+
+    if labels:
+        self.label_encoder = OneHotEncoder()
+        encoded_labels = self.label_encoder.fit_transform(np.array([labels]).reshape(-1, 1))
+    else:
+        encoded_labels = None
+    return CTMDataset(
+        X_contextual=train_contextualized_embeddings, X_bow=train_bow_embeddings,
+        idx2token=self.id2token, labels=encoded_labels)
 
 # Load Indic Multilingual embeddings 
 tp = TopicModelDataPreparation('ai4bharat/indic-bert')
@@ -635,10 +627,8 @@ class Document(BaseModel):
             }
         }
 
-from starlette.responses import PlainTextResponse
 # Create endpoint for serving requests using endpoint function
-from fastapi import FastAPI, Response
-from fastapi.responses import UJSONResponse
+from fastapi import FastAPI
 import joblib
 
 app = FastAPI()
@@ -1040,12 +1030,6 @@ average_kl_divergence_50_EN = sum(kl_divergence_50_EN.values())/len(kl_divergenc
 > To also account for similar but not exactly equal topic predictions, we compute the centroid embeddings of the 5 words describing the predicted topic for both English and non-English documents. Then we compute the cosine similarity between those two centroids (CD).
 """
 
-from gensim.corpora.dictionary import Dictionary
-from gensim.models.coherencemodel import CoherenceModel
-from gensim.models import KeyedVectors
-import gensim.downloader as api
-from scipy.spatial.distance import cosine
-import abc
 import numpy as np
 
 class CD(CentroidDistance):
