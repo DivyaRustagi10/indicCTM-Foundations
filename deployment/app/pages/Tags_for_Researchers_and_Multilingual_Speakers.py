@@ -29,19 +29,19 @@ if st.button('Submit'):
     st.spinner(text="Please wait ... Retrieving tags ...")
 
     # Fetch data and feed thru model
-#    try:
+    try:
         # do something here with text
-#        input = text
+        input = text
 #        res = requests.post(url = "https://a13c-34-143-172-49.ngrok.io/predict",
 #              data = json.dumps(input))
 
         # Output Word Cloud visualization below
 
         # Start of 'Stats for Nerds' section
-#        st.header("Stats for Nerds", anchor=None)
+        st.header("Stats for Nerds", anchor=None)
 
         # Output request results below
-#        st.subheader(res.text)
+        st.subheader(input)
 
-
-#        st.text("Submit failed")
+    except ValueError:
+        st.text("Submit failed")
