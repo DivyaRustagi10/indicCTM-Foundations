@@ -76,7 +76,7 @@ if st.button('Get Top 10 Best Tags'):
         preds = top_10()
         # Output top 10 best tags below
 
-        # Output top 5 best tags below
+        # Output top 10 best tags below
         st.text("Top 10 from prediction_hi_model_25:")
         st.text(preds[0])
 
