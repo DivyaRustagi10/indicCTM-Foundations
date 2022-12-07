@@ -1,8 +1,14 @@
-# contextualized-topic-models-ssl
+# Contextualized Topic Models For Indic Languages (Indic Topic Tagger)
 
-UPDATE: Parent Paper Implementation has now been moved to [Colab Notebook](https://colab.research.google.com/drive/14t_9WrK5MJ_I0Bx2UCnKV7f1VWHFQMHU?usp=sharing).
+**Adapted from [Cross-lingual Contextualized Topic Models with Zero-shot Learning](https://aclanthology.org/2021.eacl-main.143) (Bianchi et al., EACL 2021)**
 
-Contextualized Topic Models on Same Script Languages
+*Frontend and Azure deployment by Taylor Bostick*
+
+*Versions*
+* V 1.0: Base model for contextualized topic Models on same script languages (no accent support)
+* V 1.1: Improved model for contextualized topic Models on same script languages (accent support added)
+* V 1.2: 
+
 
 Steps to replicate original model.
 1. Install VSCode
