@@ -13,3 +13,9 @@
 * V 2.0: Improved model for contextualized topic Models on same script languages (accent support added)
 
 ## Evaluation
+
+*Metrics*
+
+* Matches: % of times the predicted topic for the non-English test document is the same as for the respective test document in English. The higher the scores, the better.
+* Centroid Embeddings: To also account for similar but not exactly equal topic predictions, we compute the centroid embeddings of the 5 words describing the predicted topic for both English and non-English documents. Then we compute the cosine similarity between those two centroids (CD).
+* Distributional Similarity: Compute the KL divergence between the predicted topic distribution on the test document and the same test document in English. Lower scores are better, indicating that the distributions do not differ by much.
