@@ -10,6 +10,6 @@
 ## Models
 *Versions*
 * V 1.0: Base model for contextualized topic Models on same script languages (no accent support)
-* V 1.1: Improved model for contextualized topic Models on same script languages (accent support added)
+* V 2.0: Improved model for contextualized topic Models on same script languages (accent support added)
 
 ## Evaluation
