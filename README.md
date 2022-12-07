@@ -1,32 +1,15 @@
 # Contextualized Topic Models For Indic Languages (Indic Topic Tagger)
 
-**Adapted from [Cross-lingual Contextualized Topic Models with Zero-shot Learning](https://aclanthology.org/2021.eacl-main.143) (Bianchi et al., EACL 2021)**
+**Adapted from [Cross-lingual Contextualized Topic Models with Zero-shot Learning](https://aclanthology.org/2021.eacl-main.143) (Bianchi et al., EACL 2021)** *([implementation](https://github.com/DivyaRustagi10/contextualized-topic-models-ssl/blob/main/notebooks/ZeroshotTM_Parent_Paper_Implementation.ipynb))*.
 
-*Frontend and Azure deployment by Taylor Bostick*
+*Frontend and Azure deployment credits to Taylor Bostick!*
 
+## Data
+[PMIndia](https://data.statmt.org/pmindia/): Parallel corpus for En-Indian languages mined from Mann ki Baat speeches of the PM of India ([paper](https://arxiv.org/abs/2001.09907)).
+
+## Models
 *Versions*
 * V 1.0: Base model for contextualized topic Models on same script languages (no accent support)
 * V 1.1: Improved model for contextualized topic Models on same script languages (accent support added)
-* V 1.2: 
 
-
-Steps to replicate original model.
-1. Install VSCode
-2. Update relative paths in the setup scripts as in the example below:
-
-Original
-```
-with open('README.rst') as readme_file:
-```
-
-Updated
-```
-with open('contextualized-topic-models\README.rst') as readme_file:
-```
-*Note: You can right click on the file and select "Copy Relative Path".*
-
-3. Run the setup.py file by typing the following in the VSCode Terminal:
-```
-python contextualized-topic-models\setup.py install
-```
-This will start installing required packages in their specified versions. You may need to install updated C++ tools from Visual Studio from [here](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=BuildTools&rel=16).
+## Evaluation
