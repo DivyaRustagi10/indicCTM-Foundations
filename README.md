@@ -1,7 +1,8 @@
-# Contextualized Topic Models with Zero-shot Learning For Indic Languages (Indic Topic Tagger )
+# Contextualized Topic Models with Zero-shot Learning For Indic Languages (IndicCTM)
 
 **Zero-shot Topic Modeling for Indic Languages is adapted from [Cross-lingual Contextualized Topic Models with Zero-shot Learning](https://aclanthology.org/2021.eacl-main.143) (Bianchi et al., EACL 2021)** *([implementation](https://github.com/DivyaRustagi10/contextualized-topic-models-ssl/blob/main/notebooks/ZeroshotTM_Parent_Paper_Implementation.ipynb))*.
 
+Indic Topic Tagger is an upcoming frontend interface to interact with IndicCTM. Below is a glimpse of the prototype version. 
 *Frontend and Azure deployment credits to Taylor Bostick!*
 
 ## Data
