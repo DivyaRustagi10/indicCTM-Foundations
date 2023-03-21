@@ -1,6 +1,6 @@
-# Contextualized Topic Models For Indic Languages (Indic Topic Tagger)
+# Contextualized Topic Models with Zero-shot Learning For Indic Languages (Indic Topic Tagger )
 
-**Adapted from [Cross-lingual Contextualized Topic Models with Zero-shot Learning](https://aclanthology.org/2021.eacl-main.143) (Bianchi et al., EACL 2021)** *([implementation](https://github.com/DivyaRustagi10/contextualized-topic-models-ssl/blob/main/notebooks/ZeroshotTM_Parent_Paper_Implementation.ipynb))*.
+**Zero-shot Topic Modeling for Indic Languages is adapted from [Cross-lingual Contextualized Topic Models with Zero-shot Learning](https://aclanthology.org/2021.eacl-main.143) (Bianchi et al., EACL 2021)** *([implementation](https://github.com/DivyaRustagi10/contextualized-topic-models-ssl/blob/main/notebooks/ZeroshotTM_Parent_Paper_Implementation.ipynb))*.
 
 *Frontend and Azure deployment credits to Taylor Bostick!*
 
