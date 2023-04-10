@@ -20,3 +20,18 @@ Indic Topic Tagger is an upcoming frontend interface to interact with IndicCTM. 
 * Matches: % of times the predicted topic for the non-English test document is the same as for the respective test document in English. The higher the scores, the better.
 * Centroid Embeddings: To also account for similar but not exactly equal topic predictions, we compute the centroid embeddings of the 5 words describing the predicted topic for both English and non-English documents. Then we compute the cosine similarity between those two centroids (CD).
 * Distributional Similarity: Compute the KL divergence between the predicted topic distribution on the test document and the same test document in English. Lower scores are better, indicating that the distributions do not differ by much.
+
+### Copyright
+Copyright 2023 Divya Rustagi
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
