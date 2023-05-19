@@ -1,0 +1,13 @@
+__pycache__/main.cpython-39.pyc
+*.pkl
+*.tsv
+*.xz
+datasets/nsfw_en.txt
+.vscode/
+*.log
+.idea/
+.DS_Store
+Thumbs.db
+.env
+.venv/
+*.pyc

@@ -1,0 +1,50 @@
+{
+  "prediction_hi_model_25": [
+    "भूटान",
+    "हमले",
+    "अमरीका",
+    "संवेदना",
+    "प्रार्थना",
+    "शोक",
+    "घायलों",
+    "कामना",
+    "शांति",
+    "श्रद्धांजलि"
+  ],
+  "prediction_hi_model_50": [
+    "एच",
+    "खिलाड़ी",
+    "जीतने",
+    "सलाम",
+    "श्रद्धांजलि",
+    "पदक",
+    "खो",
+    "जापानी",
+    "कलाम",
+    "खबर"
+  ],
+  "prediction_en_model_25": [
+    "chaired",
+    "union",
+    "cabinet",
+    "approval",
+    "cooperation",
+    "understanding",
+    "given",
+    "mou",
+    "memorandum",
+    "signed"
+  ],
+  "prediction_en_model_50": [
+    "gandhinagar",
+    "nuclear",
+    "meets",
+    "increased",
+    "principle",
+    "green",
+    "british",
+    "australian",
+    "direction",
+    "approach"
+  ]
+}

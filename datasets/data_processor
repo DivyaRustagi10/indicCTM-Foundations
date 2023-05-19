@@ -1,0 +1,82 @@
+import pandas as pd
+
+class DatasetProcessor:
+    def __init__(self, file_path, header=None, sample_with_replacement=False, delimiter='\t'):
+        """
+        Initialize the DatasetProcessor.
+
+        Args:
+            file_path (str): The path to the input file.
+            header (int or None, optional): The row index to use as column names. Default is None.
+            sample_with_replacement (bool, optional): Whether to sample with replacement. Default is False.
+            delimiter (str, optional): The delimiter used in the input file. Default is '\t'.
+        """
+        self.file_path = file_path
+        self.header = header
+        self.data = None
+        self.sample_with_replacement = sample_with_replacement
+        self.delimiter = delimiter
+
+    def load_data(self):
+        """
+        Load the data from the input file.
+        """
+        self.data = pd.read_csv(self.file_path, delimiter=self.delimiter, encoding='utf-8', on_bad_lines='skip', header=self.header)
+
+    def filter_nsfw(self, nsfw_words, filter_column):
+        """
+        Filter the data to remove rows containing NSFW words.
+
+        Args:
+            nsfw_words (str, set, list): NSFW words to filter out. Can be a path to a text file, a set, or a list of words. Default is None, which uses a default list of NSFW words.
+            filter_column (str): The column to use for filtering.
+
+        Raises:
+            ValueError: If data is not loaded. Call load_data() first.
+            ValueError: If nsfw_words is not provided.
+            ValueError: If nsfw_words doesn't match the expected formats.
+            
+        """  
+        if self.data is None:
+            raise ValueError("Data not loaded. Call load_data() first.")
+        
+        if not nsfw_words:
+            raise ValueError("nsfw_words not provided.")
+
+        if isinstance(nsfw_words, str):
+            with open(nsfw_words, 'r') as file:
+                nsfw_words = {word.strip().lower() for word in file}
+        elif isinstance(nsfw_words, (list, set)):
+            nsfw_words = set([word.lower() for word in nsfw_words])
+        else:
+            raise ValueError("nsfw_words must be a string (file path), set, or list.")
+
+        filtered_data = self.data[~self.data[filter_column].str.lower().str.contains('|'.join(nsfw_words), case=False)]
+
+        self.data = filtered_data
+
+
+    def generate_samples(self, sample_sizes, file_format='tsv'):
+        """
+        Generate samples from the data and save them to separate files.
+
+        Args:
+            sample_sizes (list): A list of sample sizes.
+            file_format (str, optional): The file format to save the samples. Defaults to 'tsv'.
+
+        Raises:
+            ValueError: If data is not loaded. Call load_data() first.
+        """
+        if self.data is None:
+            raise ValueError("Data not loaded. Call load_data() first.")
+
+        population_size = len(self.data)
+
+        for sample_size in sample_sizes:
+            if sample_size >= population_size or self.sample_with_replacement:
+                sampled_data = self.data.sample(n=sample_size, replace=self.sample_with_replacement)
+            else:
+                sampled_data = self.data.sample(n=sample_size, replace=False)
+
+            filename = f"sample_{sample_size}.{file_format}"
+            sampled_data.to_csv(filename, sep=self.delimiter, index=False, encoding='utf-8')
