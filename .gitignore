@@ -1,7 +1,0 @@
-__pycache__/main.cpython-39.pyc
-.vscode/settings.json
-models/z_ctm_25_EN.pkl
-models/z_ctm_25_HI.pkl
-models/z_ctm_50_EN.pkl
-models/z_ctm_50_HI.pkl
-models/ZeroshotTM_For_Same_Script_Languages.ipynb

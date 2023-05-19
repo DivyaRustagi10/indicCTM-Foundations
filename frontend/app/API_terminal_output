@@ -1,9 +1,0 @@
-!uvicorn main:app --reload          
-Another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
-This IS NOT expected if you are initializing AlbertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
-Batches: 100%|█████████████████████████████████████████████████████| 3/3 [00:01<00:00,  2.39it/s] 
-Sampling: [10/10]: : 10it [02:19, 13.98s/it]
-Sampling: [10/10]: : 10it [02:02, 12.24s/it]
-Sampling: [10/10]: : 10it [02:06, 12.61s/it]
-Sampling: [10/10]: : 10it [02:10, 13.06s/it]
-INFO:     127.0.0.1:52726 - "POST /predict HTTP/1.1" 200 OK
