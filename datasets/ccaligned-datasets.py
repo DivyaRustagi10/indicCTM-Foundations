@@ -23,4 +23,4 @@ sampled_df.columns = ['Domain', 'Source_URL', 'Source_Content', 'Target_URL', 'T
 
 print(len(sampled_df))
 print("Sampled dataset:")
-print(sampled_df['Domain'].head(10))
+print(sampled_df['Domain'].head(20))
