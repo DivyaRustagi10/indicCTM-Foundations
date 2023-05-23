@@ -70,6 +70,7 @@ class DatasetProcessor:
                     chunk = self.filter_nsfw(chunk, filter_column, nsfw_words=None)  # Pass nsfw_words as None
                 else:
                     chunk = self.filter_nsfw(chunk, filter_column, nsfw_words=nsfw_words_filepath)
+            print(len(chunk))
 
             filtered_chunks.append(chunk)
 
