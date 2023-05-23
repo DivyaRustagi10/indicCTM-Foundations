@@ -16,31 +16,47 @@ This pattern matching approach yielded more than 100 million aligned documents p
 import pandas as pd
 from typing import List
 from utils.dataset_processor import DatasetProcessor
+import multiprocessing
+from functools import partial
 
 # Define the path to the datasets
 dataset_hindi_path = "downloads/en_XX-hi_IN.tsv.xz"
 dataset_tamil_path = "downloads/en_XX-ta_IN.tsv.xz"
 
 # Define the sample sizes
-sample_sizes: List[int] = [20000, 100000]
+sample_sizes = [20000, 100000]
 
-# Define new column names
-cols = ['Domain', 'Source_URL', 'Source_Content', 'Target_URL', 'Target_Content']
+import multiprocessing
 
-# Create an instance of DatasetProcessor for Hindi dataset
+# Create an instance of DatasetProcessor for the Hindi dataset
 processor_hindi = DatasetProcessor(dataset_hindi_path, header=None, delimiter='\t')
 
 # Load the Hindi dataset and filter NSFW words
-processor_hindi.load_data(filter_column='Source_Content', remove_nsfw=True, compression='xz')
+processor_hindi.load_data(filter_column='Domain', remove_nsfw=True, compression='xz')
 
-# Generate samples for Hindi dataset
-processor_hindi.generate_samples(sample_sizes, base_dir='samples', file_format='tsv')
-
-# Create an instance of DatasetProcessor for Tamil dataset
+# Create an instance of DatasetProcessor for the Tamil dataset
 processor_tamil = DatasetProcessor(dataset_tamil_path, header=None, delimiter='\t')
 
 # Load the Tamil dataset and filter NSFW words
-processor_tamil.load_data(filter_column='Source_Content', remove_nsfw=True, compression='xz')
+processor_tamil.load_data(filter_column='Domain', remove_nsfw=True, compression='xz')
 
-# Generate samples for Tamil dataset
-processor_tamil.generate_samples(sample_sizes, base_dir='samples', file_format='tsv')
+# Define a function for generating samples
+def generate_samples_parallel(processor, sample_size, base_dir, file_format):
+    processor.generate_samples([sample_size], base_dir=base_dir, file_format=file_format)
+
+# Create a pool of worker processes
+pool = multiprocessing.Pool()
+
+# Generate samples for the Hindi dataset in parallel
+for sample_size in sample_sizes:
+    pool.apply_async(generate_samples_parallel, args=(processor_hindi, sample_size, 'samples', 'tsv'))
+
+# Generate samples for the Tamil dataset in parallel
+for sample_size in sample_sizes:
+    pool.apply_async(generate_samples_parallel, args=(processor_tamil, sample_size, 'samples', 'tsv'))
+
+# Close the pool and wait for the processes to complete
+pool.close()
+pool.join()
+
+
