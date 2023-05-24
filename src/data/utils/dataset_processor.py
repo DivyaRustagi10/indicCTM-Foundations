@@ -117,8 +117,8 @@ class DatasetProcessor:
             nsfw_words = set([word.lower() for word in nsfw_words])
         else:
             raise ValueError("nsfw_words must be a string (file path), set, list, or URL.")
-
-        pattern = r'\b(?:' + '|'.join(map(re.escape, nsfw_words)) + r')\b'
+        
+        pattern = r'(?:' + '|'.join(map(re.escape, nsfw_words)) + r')'
         data = data[~data[filter_column].str.lower().str.contains(pattern, case=False, na=False)]
 
         return data
@@ -140,11 +140,14 @@ class DatasetProcessor:
             headers = {'User-Agent': 'Mozilla/5.0'}
             response = requests.get(url, headers=headers)
             response.raise_for_status()
+            response.encoding = 'utf-8'  # ensure correct encoding
             nsfw_words = set(response.text.strip().lower().split('\n'))
             nsfw_words = {word for word in nsfw_words if word}  # Remove empty strings
+
             return nsfw_words
         except requests.exceptions.RequestException as e:
             raise ConnectionError(f"Failed to download NSFW words list from {url}. Error: {str(e)}")
+        
 
 
     def generate_samples(self, sample_sizes: List[int], base_dir: str = os.getcwd(), file_format: str = 'tsv') -> None:

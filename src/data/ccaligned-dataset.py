@@ -24,7 +24,7 @@ with open('nsfw_en.txt', 'r') as file:
 
 # Create an empty list to store the filtered chunks
 filtered_chunks = []
-pattern = r'\b(?:' + '|'.join(map(re.escape, nsfw_words)) + r')\b'
+pattern = r'(?:' + '|'.join(map(re.escape, nsfw_words)) + r')'
 
 dataset_hindi_path = "hindi/en_XX-hi_IN.tsv"
 
