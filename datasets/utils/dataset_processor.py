@@ -25,7 +25,7 @@ class DatasetProcessor:
     """
     
     def __init__(self, file_path: str, header: Optional[int] = None, 
-                 sample_with_replacement: bool = False, delimiter: str = '\t'):
+                 sample_with_replacement: bool = False, delimiter: str = '\t', language: str = 'en'):
         """Initialize DatasetProcessor.
 
         Args:
@@ -39,6 +39,7 @@ class DatasetProcessor:
         self.data = None
         self.sample_with_replacement = sample_with_replacement
         self.delimiter = delimiter
+        self.language = language
 
 
     def load_data(self, filter_column: str = None, remove_nsfw: bool = True, 
@@ -170,5 +171,5 @@ class DatasetProcessor:
                 # Sample the requested number of rows with replacement
                 sampled_data = self.data.sample(n=sample_size, replace=self.sample_with_replacement)
 
-            filename = os.path.join(base_dir, f"sample_{sample_size}.{file_format}")
+            filename = os.path.join(base_dir, f"{self.language}_sample_{sample_size}.{file_format}")
             sampled_data.to_csv(filename, index=False, sep=self.delimiter)

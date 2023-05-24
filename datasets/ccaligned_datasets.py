@@ -22,6 +22,7 @@ from functools import partial
 # Define the path to the datasets
 dataset_hindi_path = "downloads/en_XX-hi_IN.tsv.xz"
 dataset_tamil_path = "downloads/en_XX-ta_IN.tsv.xz"
+compression = "xz"
 
 # Define the sample sizes
 sample_sizes = [20000, 100000]
@@ -32,31 +33,32 @@ import multiprocessing
 processor_hindi = DatasetProcessor(dataset_hindi_path, header=None, delimiter='\t')
 
 # Load the Hindi dataset and filter NSFW words
-processor_hindi.load_data(filter_column='Domain', remove_nsfw=True, compression='xz')
+processor_hindi.load_data(filter_column='Domain', remove_nsfw=True, compression=compression)
 
 # Create an instance of DatasetProcessor for the Tamil dataset
 processor_tamil = DatasetProcessor(dataset_tamil_path, header=None, delimiter='\t')
 
 # Load the Tamil dataset and filter NSFW words
-processor_tamil.load_data(filter_column='Domain', remove_nsfw=True, compression='xz')
+processor_tamil.load_data(filter_column='Domain', remove_nsfw=True, compression=compression)
 
 # Define a function for generating samples
-def generate_samples_parallel(processor, sample_size, base_dir, file_format):
+def generate_samples(processor, sample_size, base_dir, file_format):
     processor.generate_samples([sample_size], base_dir=base_dir, file_format=file_format)
 
+# Set the maximum number of concurrent processes
+max_processes = multiprocessing.cpu_count() // 2
+
 # Create a pool of worker processes
-pool = multiprocessing.Pool()
+pool = multiprocessing.Pool(processes=max_processes)
 
 # Generate samples for the Hindi dataset in parallel
-for sample_size in sample_sizes:
-    pool.apply_async(generate_samples_parallel, args=(processor_hindi, sample_size, 'samples', 'tsv'))
+generate_samples_hindi = partial(generate_samples, processor_hindi, base_dir='samples', file_format='tsv')
+pool.map(generate_samples_hindi, sample_sizes)
 
 # Generate samples for the Tamil dataset in parallel
-for sample_size in sample_sizes:
-    pool.apply_async(generate_samples_parallel, args=(processor_tamil, sample_size, 'samples', 'tsv'))
+generate_samples_tamil = partial(generate_samples, processor_tamil, base_dir='samples', file_format='tsv')
+pool.map(generate_samples_tamil, sample_sizes)
 
 # Close the pool and wait for the processes to complete
 pool.close()
 pool.join()
-
-
