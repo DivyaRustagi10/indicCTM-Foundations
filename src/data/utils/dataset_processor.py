@@ -4,11 +4,54 @@ from typing import List, Optional, Set, Union
 import pandas as pd
 import requests
 import regex as re
-
+import random
 
 # Default URL for auto-downloading NSFW words list
 DEFAULT_NSFW_URL = "https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/en"
 
+# Define the function to process the dataset
+def process_dataset(dataset_path: str, nsfw_words_url: str, compression: str, 
+                    save_dir_filtered: str, save_dir_samples: str, sample_sizes: List[int], 
+                    lang: str, extension_to_remove: str, chunk_size: int, filter_column: str) -> None:
+    
+    """
+    Process the dataset, filter NSFW words, save the filtered data, and generate samples.
+
+    Args:
+        dataset_path (str): The path to the dataset file.
+        nsfw_words_url (str): The URL of the NSFW words file.
+        compression (str): The compression format of the dataset file.
+        chunk_size (int): The size of data chunks to process.
+        base_dir (str): The base directory where sample files will be saved.
+        sample_sizes (List[int]): A list of sample sizes.
+        extension_to_remove (str): The extension string to remove from the filename.
+
+    Raises:
+        ValueError: If data is not loaded. Call load_data() first.
+        TypeError: If sample_sizes contain non-positive integers.
+    """
+  
+    # Create an instance of DatasetProcessor
+    processor = DatasetProcessor(dataset_path, header=None, delimiter='\t', language=lang)
+
+    # Load the dataset and filter NSFW words
+    print(f"\nLoading dataset from {dataset_path}...")
+    processor.load_data(filter_column=filter_column, remove_nsfw=True, nsfw_words_filepath=nsfw_words_url,
+                        compression=compression, chunk_size=chunk_size)
+    print(len(processor.data))
+    print("Loading complete!")
+        
+    # Save the loaded and filtered data with a descriptive label
+    save_filepath = os.path.join(save_dir_filtered, f"filtered_{os.path.basename(dataset_path).replace('.' + extension_to_remove, '')}.txt")
+    print(f"Saving filtered data to {save_filepath}...")
+    processor.save_data(save_filepath)
+    print("Saving complete!")
+
+    # Generate samples
+    print(f"Generating {sample_sizes} samples...")
+    processor.generate_samples(sample_sizes, base_dir=save_dir_samples, file_format='txt')
+    print("Sample generation complete!")
+        
 
 class DatasetProcessor:
     """A class to process datasets.
@@ -40,7 +83,6 @@ class DatasetProcessor:
         self.sample_with_replacement = sample_with_replacement
         self.delimiter = delimiter
         self.language = language
-
 
     def load_data(self, filter_column: str = None, remove_nsfw: bool = True, 
                   nsfw_words_filepath: Union[str, Set[str], List[str]] = None, compression: Optional[str] = None, 
@@ -148,6 +190,17 @@ class DatasetProcessor:
         except requests.exceptions.RequestException as e:
             raise ConnectionError(f"Failed to download NSFW words list from {url}. Error: {str(e)}")
         
+    def save_data(self, file_path: str):
+        """
+        Save the loaded and filtered dataset to a CSV file.
+        
+        Args:
+            file_path (str): The path to the file where the data will be saved.
+        """
+        if self.data is None:
+            raise ValueError("Data not loaded. Call load_data() first.")
+        
+        self.data.to_csv(file_path, index=False, sep=self.delimiter)
 
 
     def generate_samples(self, sample_sizes: List[int], base_dir: str = os.getcwd(), file_format: str = 'tsv') -> None:
@@ -161,19 +214,34 @@ class DatasetProcessor:
         Raises:
             ValueError: If data is not loaded. Call load_data() first.
         """
+              
         if self.data is None:
             raise ValueError("Data not loaded. Call load_data() first.")
         
+        # Validate sample_sizes
+        if any(sample_size <= 0 for sample_size in sample_sizes):
+            raise TypeError("sample_sizes must contain positive integers.")
+
         base_dir = base_dir or os.getcwd()
         Path(base_dir).mkdir(parents=True, exist_ok=True)
 
         for sample_size in sample_sizes:
+            
             if sample_size >= len(self.data):
                 # Sample all available unique rows without replacement
                 sampled_data = self.data.copy()
             else:
-                # Sample the requested number of rows with replacement
-                sampled_data = self.data.sample(n=sample_size, replace=self.sample_with_replacement)
+                # Perform reservoir sampling to generate the sample
+                reservoir = []
+                for i, row in enumerate(self.data.iterrows()):
+                    if i < sample_size:
+                        reservoir.append(row[1])
+                    else:
+                        j = random.randint(0, i)
+                        if j < sample_size:
+                            reservoir[j] = row[1]
+                sampled_data = pd.DataFrame(reservoir)
 
             filename = os.path.join(base_dir, f"{self.language}_sample_{sample_size}.{file_format}")
             sampled_data.to_csv(filename, index=False, sep=self.delimiter)
+
