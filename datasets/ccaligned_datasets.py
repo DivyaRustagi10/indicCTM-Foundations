@@ -23,6 +23,7 @@ from functools import partial
 dataset_hindi_path = "downloads/en_XX-hi_IN.tsv.xz"
 dataset_tamil_path = "downloads/en_XX-ta_IN.tsv.xz"
 compression = "xz"
+CHUNK_SIZE = 50000
 
 # Define the sample sizes
 sample_sizes = [20000, 100000]
@@ -30,16 +31,22 @@ sample_sizes = [20000, 100000]
 import multiprocessing
 
 # Create an instance of DatasetProcessor for the Hindi dataset
-processor_hindi = DatasetProcessor(dataset_hindi_path, header=None, delimiter='\t')
+processor_hindi = DatasetProcessor(dataset_hindi_path, header=None, delimiter='\t', language = 'en_hi')
 
 # Load the Hindi dataset and filter NSFW words
-processor_hindi.load_data(filter_column='Domain', remove_nsfw=True, compression=compression)
+print("Loading English-Hindi Datasets...")
+processor_hindi.load_data(filter_column='Domain', remove_nsfw=True, compression=compression, chunk_size = CHUNK_SIZE)
+print("Loading complete!\n")
+print(processor_hindi.data.head(5))
 
 # Create an instance of DatasetProcessor for the Tamil dataset
-processor_tamil = DatasetProcessor(dataset_tamil_path, header=None, delimiter='\t')
+processor_tamil = DatasetProcessor(dataset_tamil_path, header=None, delimiter='\t', language = 'en_ta')
 
 # Load the Tamil dataset and filter NSFW words
-processor_tamil.load_data(filter_column='Domain', remove_nsfw=True, compression=compression)
+print("\nLoading English-Tamil Datasets...")
+processor_tamil.load_data(filter_column='Domain', remove_nsfw=True, compression=compression, chunk_size = CHUNK_SIZE)
+print("Loading complete!")
+print(processor_hindi.data.head(5))
 
 # Define a function for generating samples
 def generate_samples(processor, sample_size, base_dir, file_format):
