@@ -5,6 +5,7 @@
 *.pyc
 archive/indic
 data/
+src/data/data/processed/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
