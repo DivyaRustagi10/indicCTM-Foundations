@@ -1,14 +1,7 @@
-__pycache__/main.cpython-39.pyc
 *.pkl
 *.tsv
 *.xz
-.vscode/
-*.log
 .idea/
-.DS_Store
-Thumbs.db
-.env
-.venv/
 *.pyc
 archive/indic
 data/
@@ -91,7 +84,6 @@ target/
 .ipynb_checkpoints/
 
 # exclude data from source control by default
-/data/
 
 # Mac OS-specific storage files
 .DS_Store
@@ -102,3 +94,8 @@ target/
 
 # Mypy cache
 .mypy_cache/
+datasets/ccaligned_datasets.py
+datasets/ccaligned-dataset.py
+datasets/download_data.sh
+datasets/utils/___init___.py
+datasets/utils/dataset_processor.py
