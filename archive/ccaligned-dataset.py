@@ -19,17 +19,17 @@ import regex as re
 chunk_size = 50000
 
 # Load the list of NSFW words from the file
-with open('../../data/external/nsfw_en.txt', 'r') as file:
+with open('nsfw_en.txt', 'r') as file:
     nsfw_words = {word.strip().lower() for word in file}
 
 # Create an empty list to store the filtered chunks
 filtered_chunks = []
 pattern = r'(?:' + '|'.join(map(re.escape, nsfw_words)) + r')'
 
-dataset_hindi_path = "../../data/external/en_XX-hi_IN.tsv.xz"
+dataset_hindi_path = "hindi/en_XX-hi_IN.tsv"
 
 # Iterate over the dataset in chunks
-for chunk in pd.read_csv(dataset_hindi_path, delimiter='\t', chunksize=chunk_size, on_bad_lines='skip', compression = 'xz'):
+for chunk in pd.read_csv(dataset_hindi_path, delimiter='\t', chunksize=chunk_size, on_bad_lines='skip'):
     chunk.columns = ['Domain', 'Source_URL', 'Source_Content', 'Target_URL', 'Target_Content']
     # Apply the filtering to the "Domain" column of the chunk
     chunk = chunk[~chunk['Domain'].str.lower().str.contains(pattern, case=False, na=False)]

@@ -6,30 +6,65 @@ CCAligned: A Massive Collection of Cross-Lingual Web-Document Pairs
 
 **Summary**
 
-CCAligned consists of *parallel or comparable web-document pairs in 137 languages aligned with English*. 
+CCAligned consists of *parallel or comparable web-document pairs in 137 languages 
+aligned with English*. 
 
-These web-document pairs were constructed by performing language identification on raw web-documents, and ensuring corresponding language codes were corresponding in the URLs of web documents. 
+These web-document pairs were constructed by performing language identification on raw web-documents, 
+and ensuring corresponding language codes were corresponding in the URLs of web documents. 
 
-This pattern matching approach yielded more than 100 million aligned documents paired with English. Recognizing that each English document was often aligned to mulitple documents in different target language, we can join on English documents to obtain aligned documents that directly pair two non-English documents (e.g., Arabic-French).
+This pattern matching approach yielded more than 100 million aligned documents paired with English. 
+Recognizing that each English document was often aligned to mulitple documents in different target language, 
+we can join on English documents to obtain aligned documents that directly pair two non-English documents (e.g., Arabic-French).
 '''
-import os
-from utils.dataset_processor import DatasetProcessor, process_dataset
+
+from utils.dataset_processor import DatasetProcessor
+import multiprocessing
+from functools import partial
 
 # Define the path to the datasets
-data_filepath = "../../data/external/en_XX-hi_IN.tsv.xz"
-save_dir_filtered = '../../data/interim'
-save_dir_samples = '../../data/processed'
+dataset_hindi_path = "../../data/external/en_XX-hi_IN.tsv.xz"
 
 # Define parameter values
 compression = "xz"
 chunk_size = 50000
 nsfw_words_url = "https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/en"
-filter_column = 'Domain'
-sample_sizes = [20000, 100000]
-lang = 'en_hi'
-extension_to_remove = "tsv.xz"
 
-process_dataset(dataset_path = data_filepath, nsfw_words_url = nsfw_words_url, compression = compression, 
-                save_dir_filtered = save_dir_filtered, save_dir_samples =  save_dir_samples, 
-                sample_sizes = sample_sizes, extension_to_remove = extension_to_remove, 
-                chunk_size = chunk_size, lang = lang, filter_column = filter_column)
+# Define the sample sizes
+sample_sizes = [20000, 100000]
+
+# Create an instance of DatasetProcessor for the Hindi dataset
+processor_hindi = DatasetProcessor(
+    dataset_hindi_path, header=None, delimiter='\t', language='en_hi')
+
+# Load the Hindi dataset and filter NSFW words
+print("Loading English-Hindi dataset...")
+
+processor_hindi.load_data(filter_column='Domain', remove_nsfw=True, nsfw_words_filepath=nsfw_words_url,
+                          compression=compression, chunk_size=chunk_size)
+
+print("Loading complete!\n")
+
+print(processor_hindi.data.head(5))
+
+# Define a function for generating samples
+
+
+def generate_samples(processor, sample_size, base_dir, file_format):
+    processor.generate_samples(
+        [sample_size], base_dir=base_dir, file_format=file_format)
+
+
+# Set the maximum number of concurrent processes
+max_processes = multiprocessing.cpu_count() // 2
+
+# Create a pool of worker processes
+pool = multiprocessing.Pool(processes=max_processes)
+
+# Generate samples for the Hindi dataset in parallel
+generate_samples_hindi = partial(generate_samples, processor_hindi, base_dir='data/processed',
+                                 file_format='tsv')
+pool.map(generate_samples_hindi, sample_sizes)
+
+# Close the pool and wait for the processes to complete
+pool.close()
+pool.join()
