@@ -1,11 +1,12 @@
 *.pkl
 *.tsv
+*.csv
 *.txt
 *.xz
 .idea/
 *.pyc
-archive/indic
-/datasets
+/archive/indic/
+/datasets/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -85,10 +86,7 @@ target/
 .ipynb_checkpoints/
 
 # exclude data from source control by default
-<<<<<<< HEAD
-=======
 /data/
->>>>>>> working
 
 # Mac OS-specific storage files
 .DS_Store
@@ -99,11 +97,3 @@ target/
 
 # Mypy cache
 .mypy_cache/
-<<<<<<< HEAD
-datasets/ccaligned_datasets.py
-datasets/ccaligned-dataset.py
-datasets/download_data.sh
-datasets/utils/___init___.py
-datasets/utils/dataset_processor.py
-=======
->>>>>>> working

@@ -1,7 +1,3 @@
-streamlit==1.13.0
-altair
-click==8
-pandas
-wordcloud
-protobuf==3.20.*
-vega-datasets
+version https://git-lfs.github.com/spec/v1
+oid sha256:7e7afbe38dfd1afd582f638d89e80ee275d2470f53fc841d73e7e04ae1697cd2
+size 89
