@@ -17,8 +17,8 @@ from utils.dataset_processor import DatasetProcessor, process_dataset
 
 # Define the path to the datasets
 data_filepath = "../../data/external/en_XX-hi_IN.tsv.xz"
-filtered_dir = '../../data/interim'
-samples_dir = '../../data/processed'
+filtered_dir = '../../data/raw'
+samples_dir = '../../data/interim'
 
 
 # Define parameter values
